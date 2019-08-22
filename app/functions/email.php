@@ -57,9 +57,11 @@ function send_error_mail($domain, $email, $errors) {
           'X-Visitor-IP: ' . $visitor_ip . "\r\n" .
           'X-Coffee: Black' . "\r\n" .
           'List-Unsubscribe: <https://' . $current_link . "/unsubscribe.php?id=" . $id . ">" . "\r\n" .
-          'X-Mailer: PHP/4.1.1';  
+          'X-Mailer: PHP/4.1.1';
 
-      if (mail($to, $subject, $message, $headers) === true) {
+      /** @var \Email\EmailClientInterface $emailClient */
+      $emailClient = \Email\EmailFactory::getEmailClient();
+      if ($emailClient->send($to, $subject, $message, $headers) === true) {
           echo "\nError mail sent to $to.\n";
           return true;
       } else {
@@ -118,9 +120,11 @@ function send_cert_expired_email($days, $domain, $email, $raw_cert) {
           'X-Visitor-IP: ' . $visitor_ip . "\r\n" .
           'X-Coffee: Black' . "\r\n" .
           'List-Unsubscribe: <https://' . $current_link . "/unsubscribe.php?id=" . $id . ">" . "\r\n" .
-          'X-Mailer: PHP/4.1.1';  
+          'X-Mailer: PHP/4.1.1';
 
-      if (mail($to, $subject, $message, $headers) === true) {
+      /** @var \Email\EmailClientInterface $emailClient */
+      $emailClient = \Email\EmailFactory::getEmailClient();
+      if ($emailClient->send($to, $subject, $message, $headers) === true) {
           echo "\nExpired x days ago mail sent to $to.\n";
           return true;
       } else {
@@ -180,9 +184,11 @@ function send_expires_in_email($days, $domain, $email, $raw_cert) {
           'X-Visitor-IP: ' . $visitor_ip . "\r\n" .
           'X-Coffee: Black' . "\r\n" .
           'List-Unsubscribe: <https://' . $current_link . "/unsubscribe.php?id=" . $id . ">" . "\r\n" .
-          'X-Mailer: PHP/4.1.1';  
+          'X-Mailer: PHP/4.1.1';
 
-      if (mail($to, $subject, $message, $headers) === true) {
+      /** @var \Email\EmailClientInterface $emailClient */
+      $emailClient = \Email\EmailFactory::getEmailClient();
+      if ($emailClient->send($to, $subject, $message, $headers) === true) {
           echo "\nExpires in mail sent to $to.\n";
           return true;
       } else {

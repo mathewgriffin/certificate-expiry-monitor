@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+require_once "vendor/autoload.php";
+
 error_reporting(E_ALL & ~E_NOTICE);
 foreach (glob("functions/*.php") as $filename) {
   require($filename);
@@ -21,29 +23,22 @@ foreach (glob("functions/*.php") as $filename) {
 
 require('inc/header.php');
 
-
 if ( isset($_GET['id']) && !empty($_GET['id'])  ) {
   $id = htmlspecialchars($_GET['id']);
-  $userip = $_SERVER["HTTP_X_FORWARDED_FOR"] ? $_SERVER["HTTP_X_FORWARDED_FOR"] : $_SERVER["REMOTE_ADDR"];
-  if ( isset($_GET['cron']) && !empty($_GET['cron'])  ) {
-    $cron = htmlspecialchars($_GET['cron']);
-  } 
-  if ($cron == "auto") {
-    $userip = "Removed automatically because too many errors occured.";
-  }
   $uuid_pattern = "/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})/";
   if (preg_match($uuid_pattern, $id)) {
-    $remove_domain = remove_domain_check($id, $userip);
-    if (is_array($remove_domain["errors"]) && count($remove_domain["errors"]) != 0) {
-      $errors = array_unique($remove_domain["errors"]);
-      foreach ($remove_domain["errors"] as $key => $err_value) {
+    $userip = $_SERVER["HTTP_X_FORWARDED_FOR"] ? $_SERVER["HTTP_X_FORWARDED_FOR"] : $_SERVER["REMOTE_ADDR"];
+    $add_domain = add_domain_check($id, $userip);
+    if (is_array($add_domain["errors"]) && count($add_domain["errors"]) != 0) {
+      $errors = array_unique($add_domain["errors"]);
+      foreach ($add_domain["errors"] as $key => $err_value) {
         echo "<div class='alert alert-danger' role='alert'>";
         echo htmlspecialchars($err_value);
         echo "</div>";
       }
     } else {
       echo "<div class='alert alert-success' role='alert'>";
-      echo "Check removed. You will no longer receive notifications on certificate expiration events for this domain.<br>";
+      echo "Check added. You will now receive notifications on certificate expiration events as described in the FAQ.<br>";
       echo "</div>";
     }
   } else {
@@ -59,9 +54,7 @@ if ( isset($_GET['id']) && !empty($_GET['id'])  ) {
   echo "</div>";
 }
 
-echo "<div class='content'><section id='faq'>";
 require('inc/faq.php');
-echo "</div>";
 
 require('inc/footer.php');
 

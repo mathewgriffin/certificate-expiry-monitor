@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  web:
+    container_name: certificate-monitor
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/certificate-expiry-monitor
+    environment:
+      - SENDER_ADDRESS=send@venditan.com
+      - WEBSITE_ADDRESS=localhost:8080
+      - EMAIL_CLIENT=Mandrill
+      - MANDRILL_API_KEY=ToMsD2u8hHbbiauHKMOFOQ

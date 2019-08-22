@@ -13,29 +13,37 @@
 
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+require_once "vendor/autoload.php";
 
-$version = 1.4;
-$title = "Certificate Expiry Monitor";
+error_reporting(E_ALL & ~E_NOTICE);
+ob_start();
+$write_cache = 0;
 
-$current_folder = get_current_folder();
+foreach (glob("functions/*.php") as $filename) {
+  require($filename);
+}
 
-# timeout in seconds
-$timeout = 2;
+require('inc/header.php');
 
-date_default_timezone_set('UTC');
+echo "<div class='content'><section id='intro'>";
+require('inc/intro.php');
+echo "</div>";
 
-ini_set('default_socket_timeout', 2);
+echo "<div class='content'><section id='form'>";
+require('inc/form.php');
+echo "</div>";
 
-$random_blurp = rand(1000,99999);
+echo "<div class='content'><section id='faq'>";
+require('inc/faq.php');
+echo "</div>";
 
-$current_domain = "certificatemonitor.org";
-$current_link = $current_domain;
+echo "<hr>";
+require('inc/footer.php');
 
-// set this to a location outside of your webroot so that it cannot be accessed via the internets.
-
-
-$pre_check_file = '/var/www/certificatemonitor.org/cert-monitor/pre_checks.json';
-$check_file = '/var/www/certificatemonitor.org/cert-monitor/checks.json';
-$deleted_check_file = '/var/www/certificatemonitor.org/cert-monitor/deleted_checks.json';
-
+echo "</div>";
+echo "</div>";
+echo "</div>";
 ?>
+
+</body>
+</script>

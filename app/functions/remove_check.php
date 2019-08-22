@@ -93,7 +93,9 @@ function remove_domain_check($id,$visitor_ip) {
             'List-Unsubscribe: <https://' . $current_link . "/unsubscribe.php?id=" . $id . ">" . "\r\n" .
             'X-Mailer: PHP/4.1.1';
 
-        if (mail($to, $subject, $message, $headers) === true) {
+        /** @var \Email\EmailClientInterface $emailClient */
+        $emailClient = \Email\EmailFactory::getEmailClient();
+        if ($emailClient->send($to, $subject, $message, $headers) === true) {
             $result['success'][] = true;
         } else {
             $result['errors'][] = "Can't send email.";

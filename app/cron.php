@@ -14,10 +14,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+require_once "vendor/autoload.php";
+
 error_reporting(E_ALL & ~E_NOTICE);
 $result = array();
 if (php_sapi_name() == "cli") {
-  foreach (glob( __DIR__ . "/functions/*.php") as $filename) {
+  foreach (glob(__DIR__ . "/functions/*.php") as $filename) {
     require($filename);
   }
 

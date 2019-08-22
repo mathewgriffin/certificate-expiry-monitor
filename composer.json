@@ -1,0 +1,10 @@
+{
+  "autoload": {
+    "psr-4": {
+      "Email\\":  "app/email/"
+    }
+  },
+  "config": {
+    "vendor-dir": "app/vendor"
+  }
+}

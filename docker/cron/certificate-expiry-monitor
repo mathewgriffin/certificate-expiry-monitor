@@ -1,0 +1,2 @@
+# /etc/cron.d/certificate-expiry-monitor
+1 1 * * * /usr/bin/php /certificate-expiry-monitor/app/cron.php >> /var/log/certificate-expiry-monitor.log 2>&1
